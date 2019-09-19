@@ -17,8 +17,18 @@ export default {
    * @description api请求基础路径
    */
   baseUrl: {
-    dev: 'http://iview-admin.phalapi.net',
-    pro: 'http://iview-admin.phalapi.net'
+    // 开发配置
+    dev: {
+      host: 'http://api.okayapi.com/', // TODO: 接口域名，请替换成你的
+      app_key: '16BD4337FB1D355902E0502AFCBFD4DF', // TODO: app_key，请替换成你的
+      app_secrect: 'LKJ63BzVrhX9SPhWcjl392kFqPTdzlUVK6ixnUrCYSbwuDyfxVubA8Fc4q67arT8qTpCtY5' // TODO: app_secrect，请替换成你的
+    },
+    // 正式配置
+    pro: {
+      host: 'http://api.okayapi.com/', // TODO: 接口域名，请替换成你的
+      app_key: '16BD4337FB1D355902E0502AFCBFD4DF', // TODO: app_key，请替换成你的
+      app_secrect: 'LKJ63BzVrhX9SPhWcjl392kFqPTdzlUVK6ixnUrCYSbwuDyfxVubA8Fc4q67arT8qTpCtY5' // TODO: app_secrect，请替换成你的
+    }
   },
   /**
    * @description 默认打开的首页的路由name值，默认为home

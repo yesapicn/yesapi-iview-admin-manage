@@ -1,23 +1,28 @@
 import axios from '@/libs/api.request'
+import md5 from 'js-md5'
 
 export const login = ({ userName, password }) => {
   const data = {
-    userName,
-    password
+    s: 'App.User.Login',
+    username: userName,
+    password: md5(password)
   }
   return axios.request({
-    url: 'api/User.Login',
+    url: '/',
     data,
     method: 'post'
   })
 }
 
-export const getUserInfo = (token) => {
+export const getUserInfo = (uuid, token) => {
+  const data = {
+    s: 'App.User.Profile',
+    uuid,
+    token
+  }
   return axios.request({
-    url: 'api/User.GetInfo',
-    params: {
-      token
-    },
+    url: '/',
+    data,
     method: 'get'
   })
 }

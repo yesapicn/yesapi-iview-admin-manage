@@ -9,7 +9,7 @@ import {
   restoreTrash,
   getUnreadCount
 } from '@/api/user'
-import { setToken, getToken } from '@/libs/util'
+import { setToken, getToken, setUuid, getUuid } from '@/libs/util'
 
 export default {
   state: {
@@ -17,6 +17,7 @@ export default {
     userId: '',
     avatorImgPath: '',
     token: getToken(),
+    uuid: getUuid(),
     access: '',
     hasGetInfo: false,
     unreadCount: 0,
@@ -74,7 +75,7 @@ export default {
   },
   actions: {
     // 登录
-    handleLogin ({ commit }, {userName, password}) {
+    handleLogin ({ commit }, { userName, password }) {
       userName = userName.trim()
       return new Promise((resolve, reject) => {
         login({
@@ -83,6 +84,7 @@ export default {
         }).then(res => {
           const data = res.data
           commit('setToken', data.token)
+          // commit('setUuid', data.uuid) // TODO
           resolve()
         }).catch(err => {
           reject(err)
@@ -109,14 +111,16 @@ export default {
     getUserInfo ({ state, commit }) {
       return new Promise((resolve, reject) => {
         try {
-          getUserInfo(state.token).then(res => {
-            const data = res.data
-            commit('setAvator', data.avator)
-            commit('setUserName', data.name)
-            commit('setUserId', data.user_id)
-            commit('setAccess', data.access)
-            commit('setHasGetInfo', true)
-            resolve(data)
+          getUserInfo(state.uuid, state.token).then(res => {
+            if (res && res.err_code && res.err_code == 0) {
+              const data = res.info
+              commit('setAvator', data && data.ext_info && data.ext_info.yesapi_avatar ? data.ext_info.yesapi_avatar : '')
+              commit('setUserName', data.username)
+              commit('setUserId', data.uuid)
+              commit('setAccess', data.role)
+              commit('setHasGetInfo', true)
+              resolve(data)
+            }
           }).catch(err => {
             reject(err)
           })

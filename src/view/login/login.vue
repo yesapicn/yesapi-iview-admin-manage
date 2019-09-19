@@ -29,6 +29,7 @@ export default {
     ]),
     handleSubmit ({ userName, password }) {
       this.handleLogin({ userName, password }).then(res => {
+        console.log('login.vue res', res)
         this.getUserInfo().then(res => {
           this.$router.push({
             name: this.$config.homeName

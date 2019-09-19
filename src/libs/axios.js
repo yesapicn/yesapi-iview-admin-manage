@@ -1,5 +1,7 @@
 import axios from 'axios'
 import store from '@/store'
+import md5 from 'js-md5'
+
 // import { Spin } from 'iview'
 const addErrorLog = errorInfo => {
   const { statusText, status, request: { responseURL } } = errorInfo
@@ -13,8 +15,10 @@ const addErrorLog = errorInfo => {
 }
 
 class HttpRequest {
-  constructor (baseUrl = baseURL) {
+  constructor (baseUrl = baseURL, app_key = app_key, app_secrect = app_secrect) {
     this.baseUrl = baseUrl
+    this.app_key = app_key
+    this.app_secrect = app_secrect
     this.queue = {}
   }
   getInsideConfig () {
@@ -70,7 +74,29 @@ class HttpRequest {
     const instance = axios.create()
     options = Object.assign(this.getInsideConfig(), options)
     this.interceptors(instance, options.url)
+
+    // console.log(options)
+
+    // 自成签名，公共参数
+    var data = options.data ? options.data : {}
+    data.app_key = this.app_key
+    data.sign = ''
+    data.sign = this.enryptData(data)
     return instance(options)
+  }
+
+  /**
+   * 生成小白接口签名
+   */
+  enryptData (params) {
+    var sdic = Object.keys(params).sort()
+    var paramsStrExceptSign = ''
+    for (let ki in sdic) {
+      paramsStrExceptSign += params[sdic[ki]]
+    }
+
+    var sign = md5(paramsStrExceptSign + this.app_secrect).toUpperCase()
+    return sign
   }
 }
 export default HttpRequest

@@ -5,14 +5,25 @@ import { forEach, hasOneOf, objEqual } from '@/libs/tools'
 const { title, cookieExpires, useI18n } = config
 
 export const TOKEN_KEY = 'token'
+export const UUID_KEY = 'uuid'
 
 export const setToken = (token) => {
-  Cookies.set(TOKEN_KEY, token, {expires: cookieExpires || 1})
+  Cookies.set(TOKEN_KEY, token, { expires: cookieExpires || 1 })
 }
 
 export const getToken = () => {
   const token = Cookies.get(TOKEN_KEY)
   if (token) return token
+  else return false
+}
+
+export const setUuid = (uuid) => {
+  Cookies.set(UUID_KEY, uuid, { expires: 180 })
+}
+
+export const getUuid = () => {
+  const uuid = Cookies.get(UUID_KEY)
+  if (uuid) return uuid
   else return false
 }
 
@@ -60,7 +71,7 @@ export const getBreadCrumbList = (route, homeRoute) => {
   let res = routeMetched.filter(item => {
     return item.meta === undefined || !item.meta.hideInBread
   }).map(item => {
-    let meta = {...item.meta}
+    let meta = { ...item.meta }
     if (meta.title && typeof meta.title === 'function') {
       meta.__titleIsFunction__ = true
       meta.title = meta.title(route)
@@ -75,12 +86,12 @@ export const getBreadCrumbList = (route, homeRoute) => {
   res = res.filter(item => {
     return !item.meta.hideInMenu
   })
-  return [{...homeItem, to: homeRoute.path}, ...res]
+  return [{ ...homeItem, to: homeRoute.path }, ...res]
 }
 
 export const getRouteTitleHandled = (route) => {
-  let router = {...route}
-  let meta = {...route.meta}
+  let router = { ...route }
+  let meta = { ...route.meta }
   let title = ''
   if (meta.title) {
     if (typeof meta.title === 'function') {
