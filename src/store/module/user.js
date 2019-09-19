@@ -43,6 +43,10 @@ export default {
       state.token = token
       setToken(token)
     },
+    setUuid (state, uuid) {
+      state.uuid = uuid
+      setUuid(uuid)
+    },
     setHasGetInfo (state, status) {
       state.hasGetInfo = status
     },
@@ -84,7 +88,7 @@ export default {
         }).then(res => {
           const data = res.data
           commit('setToken', data.token)
-          // commit('setUuid', data.uuid) // TODO
+          commit('setUuid', data.uuid)
           resolve(data)
         }).catch(err => {
           reject(err)
