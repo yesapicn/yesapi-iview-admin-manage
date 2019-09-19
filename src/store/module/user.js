@@ -116,15 +116,13 @@ export default {
       return new Promise((resolve, reject) => {
         try {
           getUserInfo(state.uuid, state.token).then(res => {
-            if (res && res.err_code && res.err_code == 0) {
-                const data = res.info
-                commit('setAvator', data && data.ext_info && data.ext_info.yesapi_avatar ? data.ext_info.yesapi_avatar : '')
-                commit('setUserName', data.username)
-                commit('setUserId', data.uuid)
-                commit('setAccess', data.role)
-                commit('setHasGetInfo', true)
-                resolve(data)
-            }
+              const data = res.data.info
+              commit('setAvator', data && data.ext_info && data.ext_info.yesapi_avatar ? data.ext_info.yesapi_avatar : '')
+              commit('setUserName', data.username)
+              commit('setUserId', data.uuid)
+              commit('setAccess', data.role)
+              commit('setHasGetInfo', true)
+              resolve(data)
           }).catch(err => {
             reject(err)
           })

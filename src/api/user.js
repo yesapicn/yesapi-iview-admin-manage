@@ -23,7 +23,7 @@ export const getUserInfo = (uuid, token) => {
   return axios.request({
     url: '/',
     data,
-    method: 'get'
+    method: 'post'
   })
 }
 

@@ -54,7 +54,7 @@ class HttpRequest {
       const { data, status } = res
       // 1、对于真实接口请求，只取data部分（但在浏览器控制台可以看到接口返回的全部内容，方便后端开发调试）
       // 2、对于开发时的模拟数据，直接返回全部
-      return (data && data.ret && data.data) ? { data: data.data, status } : { data, status }
+      return (data && data.data) ? { data: data.data, status } : { data, status }
     }, error => {
       this.destroy(url)
       let errorInfo = error.response
