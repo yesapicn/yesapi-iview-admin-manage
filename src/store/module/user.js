@@ -85,7 +85,7 @@ export default {
           const data = res.data
           commit('setToken', data.token)
           // commit('setUuid', data.uuid) // TODO
-          resolve()
+          resolve(data)
         }).catch(err => {
           reject(err)
         })
@@ -113,13 +113,13 @@ export default {
         try {
           getUserInfo(state.uuid, state.token).then(res => {
             if (res && res.err_code && res.err_code == 0) {
-              const data = res.info
-              commit('setAvator', data && data.ext_info && data.ext_info.yesapi_avatar ? data.ext_info.yesapi_avatar : '')
-              commit('setUserName', data.username)
-              commit('setUserId', data.uuid)
-              commit('setAccess', data.role)
-              commit('setHasGetInfo', true)
-              resolve(data)
+                const data = res.info
+                commit('setAvator', data && data.ext_info && data.ext_info.yesapi_avatar ? data.ext_info.yesapi_avatar : '')
+                commit('setUserName', data.username)
+                commit('setUserId', data.uuid)
+                commit('setAccess', data.role)
+                commit('setHasGetInfo', true)
+                resolve(data)
             }
           }).catch(err => {
             reject(err)
