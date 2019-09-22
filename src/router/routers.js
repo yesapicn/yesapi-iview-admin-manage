@@ -165,6 +165,15 @@ export default [
         component: () => import('@/view/components/tables/tables.vue')
       },
       {
+        path: 'list_page',
+        name: 'list_page',
+        meta: {
+          icon: 'md-grid',
+          title: '多功能列表'
+        },
+        component: () => import('@/view/components/list/tables.vue')
+      },
+      {
         path: 'split_pane_page',
         name: 'split_pane_page',
         meta: {
